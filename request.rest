@@ -1,0 +1,25 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5hbWUiOiJSZXphMTI0IiwiZW1haWwiOiJjb250b2hAZ21haWwuY29tIiwiaWF0IjoxNzAxMzM0MzE4LCJleHAiOjE3MDEzMzQzMzh9.dsIipGy0WjTs3uzNMYNuIms4fhcDejoBeeu0fEMH9ak
+###
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "name": "Reza124",
+    "email": "contoh@gmail.com",
+    "password": "123",
+    "confPassword": "123"
+    
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "contoh@gmail.com",
+    "password": "123"
+}
+
+###
+GET http://localhost:5000/token
