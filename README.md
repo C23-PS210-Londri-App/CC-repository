@@ -7,9 +7,6 @@ This API provides endpoints for user registration, login, fetching user data, an
 - [Endpoints](#endpoints)
   - [User API](#user-api)
   - [Laundry API](#laundry-api)
-- [Installation](#installation)
-- [Authentication](#authentication)
-- [Dependencies](#dependencies)
 
 ## Endpoints
 
