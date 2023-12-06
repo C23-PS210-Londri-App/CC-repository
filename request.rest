@@ -1,15 +1,15 @@
 GET http://localhost:5000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5hbWUiOiJSZXphMTI0IiwiZW1haWwiOiJjb250b2hAZ21haWwuY29tIiwiaWF0IjoxNzAxMzM0MzE4LCJleHAiOjE3MDEzMzQzMzh9.dsIipGy0WjTs3uzNMYNuIms4fhcDejoBeeu0fEMH9ak
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLW1FaC1tVDhfIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6ImNvbnRvaDEyMjNAZ21haWwuY29tIiwiaWF0IjoxNzAxNjg4NTc3LCJleHAiOjE3MDE2ODg1OTd9.xiG-gemoq0gRdKLQu9Uuj33RW5rESwf2D8C5uw_4E_E
 ###
 POST http://localhost:5000/register
 Content-Type: application/json
 
 {
-    "name": "Reza124",
+    "name": "Hafis",
     "email": "contoh@gmail.com",
     "password": "123",
-    "confPassword": "123"
-    
+    "confPassword": "123",
+    "telephone" : "08392337398"
 }
 
 ###
@@ -17,9 +17,38 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "contoh@gmail.com",
+    "email": "contoh1223@gmail.com",
     "password": "123"
 }
 
 ###
 GET http://localhost:5000/token
+
+
+###
+POST http://localhost:5000/laundry/register
+Content-Type: application/json
+
+{
+    "name": "Reza Laundry",
+    "email": "laundryReza@gmail.com",
+    "password": "123",
+    "confPassword": "123",
+    "telephone" : "083923sdsd37398",
+    "latitude" : "-7.87639",
+    "longitude": "110.35889"
+}
+
+
+###
+POST http://localhost:5000/laundry/login
+Content-Type: application/json
+
+{
+    "email": "laundryReza@gmail.com",
+    "password": "123"
+}
+
+###
+GET http://localhost:5000/laundrys
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXVuZHJ5SUQiOiJsYXVuZHJ5LTFJaFZNWG1HIiwibmFtZSI6IlJlemEgTGF1bmRyeSIsImVtYWlsIjoibGF1bmRyeVJlemFAZ21haWwuY29tIiwiaWF0IjoxNzAxNzA2MTAyLCJleHAiOjE3MDE3MDYxMjJ9.uSh6zNZACVXu6Xe1_l5ox32iGPDdTZM4JSaV3xA21Ww

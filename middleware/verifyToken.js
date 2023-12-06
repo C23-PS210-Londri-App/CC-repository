@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from "jsonwebtoken"
 
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Fix: split by space
     if (token == null) return res.sendStatus(401);
@@ -12,4 +12,3 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-module.exports = {verifyToken};

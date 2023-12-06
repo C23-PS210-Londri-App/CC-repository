@@ -1,7 +1,8 @@
-const Users = require('../models/UserModel') 
-const jwt = require('jsonwebtoken')
+import Users from "../models/userModel.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const refreshToken = async(req, res) => {
+export const refreshToken = async(req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
         if(!refreshToken) return res.sendStatus(401);
@@ -25,5 +26,3 @@ const refreshToken = async(req, res) => {
         console.log(error);
     }
 }
-
-module.exports = {refreshToken}
