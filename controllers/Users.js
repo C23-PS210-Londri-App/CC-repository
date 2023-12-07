@@ -15,6 +15,49 @@ export const getUsers = async (req, res) => {
     }
   };
 
+  export const getUserById = async (req, res) => {
+    const userId = req.params.id;
+  
+    try {
+      const user = await Users.findByPk(userId, {
+        attributes: ['id', 'name', 'email', 'telephone']
+      });
+  
+      // Jika pengguna tidak ditemukan, beri respons dengan status 404 dan pesan kesalahan
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          statusCode: res.statusCode,
+          message: "Pengguna tidak ditemukan",
+        });
+      }
+  
+      // Beri respons dengan objek JSON yang berisi informasi pengguna yang diambil
+      res.json({
+        success: true,
+        statusCode: res.statusCode,
+        message: "Pengguna diambil dengan sukses",
+        user,
+      });
+  
+    } catch (error) {
+      // Jika terjadi kesalahan selama blok try, tangani dan beri respons dengan JSON kesalahan
+      res.status(500).json({
+        success: false,
+        statusCode: res.statusCode,
+        error: {
+          message: error.message,
+          uri: req.originalUrl,
+        },
+      });
+  
+      // Catat kesalahan ke konsol untuk tujuan debugging
+      console.log(error);
+    }
+  };
+  
+
+
 export const Register = async (req, res) => {
     const { name, email, password, confPassword, telephone } = req.body;
 

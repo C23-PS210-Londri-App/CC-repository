@@ -14,7 +14,46 @@ export const getLaundrys = async (req, res) => {
     }
   };
 
-
+  export const getLaundryById = async (req, res) => {
+    const laundryId = req.params.id;
+  
+    try {
+      const laundry = await Laundrys.findByPk(laundryId, {
+        attributes: ['id', 'name', 'email', 'telephone']
+      });
+  
+      // Jika pengguna tidak ditemukan, beri respons dengan status 404 dan pesan kesalahan
+      if (!laundry) {
+        return res.status(404).json({
+          success: false,
+          statusCode: res.statusCode,
+          message: "Pengguna tidak ditemukan",
+        });
+      }
+  
+      // Beri respons dengan objek JSON yang berisi informasi pengguna yang diambil
+      res.json({
+        success: true,
+        statusCode: res.statusCode,
+        message: "Pengguna diambil dengan sukses",
+        laundry,
+      });
+  
+    } catch (error) {
+      // Jika terjadi kesalahan selama blok try, tangani dan beri respons dengan JSON kesalahan
+      res.status(500).json({
+        success: false,
+        statusCode: res.statusCode,
+        error: {
+          message: error.message,
+          uri: req.originalUrl,
+        },
+      });
+  
+      // Catat kesalahan ke konsol untuk tujuan debugging
+      console.log(error);
+    }
+  };
 
 export const registerLaundry = async (req, res) => {
   const {
@@ -64,7 +103,6 @@ export const registerLaundry = async (req, res) => {
   }
 };
 
-
 export const loginLaundry = async(req, res) => {
     try {
         const laundry = await Laundrys.findAll({
@@ -100,3 +138,50 @@ export const loginLaundry = async(req, res) => {
     }
   }
 
+  export const service = async (req, res) => {
+    const laundryId = req.params.id;
+    const { cuci, setrika, komplit, komplit_kilat } = req.body;
+  
+    try {
+      // Validate input
+      if (cuci === undefined || setrika === undefined || komplit === undefined || komplit_kilat === undefined) {
+        return res.status(400).json({
+          success: false,
+          statusCode: 400,
+          message: "Invalid input data",
+        });
+      }
+  
+      const layanan = await Laundrys.findByPk(laundryId);
+  
+      if (!layanan) {
+        return res.status(404).json({
+          success: false,
+          statusCode: 404,
+          message: "Laundry Tidak Ditemukan",
+        });
+      }
+  
+      // Update the database record
+      await Laundrys.update(
+        { cuci, setrika, komplit, komplit_kilat },
+        { where: { id: laundryId } }
+      );
+  
+      res.json({
+        success: true,
+        statusCode: res.statusCode,
+        message: "Success",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        statusCode: 500,
+        error: {
+          message: "Internal Server Error",
+          uri: req.originalUrl,
+        },
+      });
+    }
+  };
