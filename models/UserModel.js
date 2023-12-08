@@ -2,7 +2,6 @@ import { Sequelize } from "sequelize";
 import db from "../config/database.js";
 import { nanoid } from "nanoid";
 
-
 const { DataTypes } = Sequelize;
 
 const Users = db.define(
@@ -31,6 +30,10 @@ const Users = db.define(
         allowNull: true,
       },
       telephone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      alamat: {
         type: DataTypes.STRING,
         allowNull: true,
       },

@@ -3,7 +3,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyL
 
 ###
 GET http://localhost:5000/users/user-t9fEL3rr
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXQ5ZkVMM3JyIiwibmFtZSI6IkhhZmlzIiwiZW1haWwiOiJjb250b2hAZ21haWwuY29tIiwiaWF0IjoxNzAxODY0MDU4LCJleHAiOjE3MDE4NjQwNzh9.OS9apuu69tFwhH-EVoVN68ZQi9th8MXkpoH_LMt_1Po
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXQ5ZkVMM3JyIiwibmFtZSI6IkhhZmlzIiwiZW1haWwiOiJjb250b2hAZ21haWwuY29tIiwiaWF0IjoxNzAxOTU4NTg1LCJleHAiOjE3MDE5NTg2MDV9.f0DiFS2TF_BVs6p7hsTkeRgrfFFgSRQXzWVJJHjVTrM
 
 ###
 POST http://localhost:5000/register
@@ -35,8 +35,8 @@ POST http://localhost:5000/laundry/register
 Content-Type: application/json
 
 {
-    "name": "Reza Laundry",
-    "email": "laundryReza@gmail.com",
+    "name": "Andri Laundry",
+    "email": "laundry@gmail.com",
     "password": "123",
     "confPassword": "123",
     "telephone" : "083923sdsd37398",
@@ -61,12 +61,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXVuZHJ5SUQiOiJsY
 
 
 ###
-POST http://localhost:5000/laundry/service/laundry-O0LxeT0p
+POST http://localhost:5000/laundry/service/laundry-2M6Qnav8
 Content-Type: application/json
 
 {
     "cuci": 1,
     "setrika": 0,
     "komplit": 1,
-    "komplit_kilat": 0
+    "komplit_kilat": 0,
+    "harga_cuci": 5000,
+    "harga_komplit":7000
 }

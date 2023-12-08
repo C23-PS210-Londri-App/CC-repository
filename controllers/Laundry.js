@@ -151,6 +151,23 @@ export const loginLaundry = async(req, res) => {
           message: "Invalid input data",
         });
       }
+      let harga_cuci=0;
+      let harga_setrika=0;
+      let harga_komplit=0;
+      let harga_komplit_kilat=0;
+
+      if(cuci === 1){
+        harga_cuci = req.body.harga_cuci;
+      }
+      if(setrika === 1){
+        harga_setrika = req.body.harga_setrika;
+      }
+      if(komplit === 1){
+        harga_komplit = req.body.harga_komplit;
+      }
+      if(komplit_kilat === 1){
+        harga_komplit_kilat = req.body.harga_komplit_kilat;
+      }
   
       const layanan = await Laundrys.findByPk(laundryId);
   
@@ -164,7 +181,7 @@ export const loginLaundry = async(req, res) => {
   
       // Update the database record
       await Laundrys.update(
-        { cuci, setrika, komplit, komplit_kilat },
+        { cuci, setrika, komplit, komplit_kilat,harga_cuci,harga_setrika,harga_komplit,harga_komplit_kilat },
         { where: { id: laundryId } }
       );
   

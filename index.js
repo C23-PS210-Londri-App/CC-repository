@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import db from "./config/database.js";
 import cors from "cors"
 import Laundrys from "./models/laundryModel.js";
+import Layanan from "./models/layananModel.js";
+import Order from "./models/orderModel.js";
 import router from "./routes/index.js";
 
 dotenv.config();

@@ -1,10 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
 import { nanoid } from "nanoid";
-
-
 const { DataTypes } = Sequelize;
-
 const Laundrys = db.define(
     "laundry",
     {
@@ -16,6 +13,10 @@ const Laundrys = db.define(
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      telephone: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       email: {
         type: DataTypes.STRING,
@@ -30,43 +31,23 @@ const Laundrys = db.define(
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      telephone: {
-        type: DataTypes.STRING,
+      photo: {
+        type: DataTypes.TEXT,
         allowNull: true,
-      },
-      cuci: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-      },
-      setrika: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-      },
-      komplit: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-      },
-      komplit_kilat: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-      },
-      lainnya: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: 0,
       },
       latitude: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING,
         defaultValue: 0,
       },
       longitude: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      alamat_generete: {
+      alamat: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      photo: {
+      status: {
         type: DataTypes.TEXT,
         allowNull: true,
       },
