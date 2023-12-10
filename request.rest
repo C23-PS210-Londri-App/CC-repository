@@ -52,8 +52,8 @@ POST http://localhost:5000/laundry/register
 Content-Type: application/json
 
 {
-    "name": "Andri Laundry",
-    "email": "laundry@gmail.com",
+    "name": "Reza Laundry",
+    "email": "laundry11@gmail.com",
     "password": "123",
     "confPassword": "123",
     "telephone" : "083923sdsd37398",
@@ -71,8 +71,6 @@ Content-Type: application/json
     "email": "laundry@gmail.com",
     "password": "123"
 }
-
-
 
 
 ###

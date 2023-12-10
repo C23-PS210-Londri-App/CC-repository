@@ -24,7 +24,7 @@ async function startServer() {
   app.use(cookieParser());
   app.use(express.json());
   app.use(router);
-  const port = 5000
+  const port = process.env.SERVER_PORT
   app.listen(port, () => console.log(`Server Listening at port ${port}`));
 }
 

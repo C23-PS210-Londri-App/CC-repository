@@ -19,7 +19,7 @@ export const getLaundrys = async (req, res) => {
   
     try {
       const laundry = await Laundrys.findByPk(laundryId, {
-        attributes: ['id', 'name', 'email', 'telephone']
+        attributes: ['name', 'alamat', 'telephone', 'status']
       });
   
       // Jika pengguna tidak ditemukan, beri respons dengan status 404 dan pesan kesalahan
@@ -81,8 +81,18 @@ export const registerLaundry = async (req, res) => {
 
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(password, salt);
-
-  let imageUrl = ""; 
+  let status = "Open";
+  
+  let imageUrl = "";
+    // Cek apakah file dan cloudStoragePublicUrl tersedia
+    if (req.file && req.file.cloudStoragePublicUrl) {
+      imageUrl = req.file.cloudStoragePublicUrl;
+    } else if (req.imageUrl) {
+      // Jika cloudStoragePublicUrl tidak tersedia, gunakan imageUrl dari helper uploadImageToGCS
+      imageUrl = req.imageUrl;
+    } else {
+      return res.status(500).json({ error: 'Image URL not available' });
+    }
   try {
     // Gunakan nama yang konsisten
     await Laundrys.create({
@@ -94,6 +104,7 @@ export const registerLaundry = async (req, res) => {
       longitude: longitude,
       alamat : alamat,
       photo : imageUrl,
+      status: status,
     });
 
     res.json({
@@ -176,7 +187,50 @@ export const loginLaundry = async(req, res) => {
     }
   };
 
-
-
-
- 
+  export const editLaundry = async (req, res) => {
+    const { id } = req.params;
+    const { name, telephone, alamat } = req.body;
+    
+    let imageUrl = "";
+    // Cek apakah file dan cloudStoragePublicUrl tersedia
+    if (req.file && req.file.cloudStoragePublicUrl) {
+      imageUrl = req.file.cloudStoragePublicUrl;
+    } else if (req.imageUrl) {
+      // Jika cloudStoragePublicUrl tidak tersedia, gunakan imageUrl dari helper uploadImageToGCS
+      imageUrl = req.imageUrl;
+    } else {
+      return res.status(500).json({ error: 'Image URL not available' });
+    }
+    
+    try {
+      const laundry = await Laundrys.findByPk(id);
+      if (!laundry) {
+        return res.status(404).json({
+          success: false,
+          statusCode: res.statusCode,
+          message: "laundry not found",
+        });
+      }
+      await laundry.update({
+        name,
+        telephone,
+        alamat,
+        photo: imageUrl,
+      });
+      res.json({
+        success: true,
+        statusCode: res.statusCode,
+        message: "Success",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        statusCode: res.statusCode,
+        error: {
+          message: error.message,
+          uri: req.originalUrl,
+        },
+      });
+    }
+  };

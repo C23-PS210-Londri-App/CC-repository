@@ -132,7 +132,18 @@ export const Login = async(req, res) => {
 export const editUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, telephone ,latitude, longitude, alamat } = req.body;
+    
     let imageUrl = "";
+    // Cek apakah file dan cloudStoragePublicUrl tersedia
+    if (req.file && req.file.cloudStoragePublicUrl) {
+      imageUrl = req.file.cloudStoragePublicUrl;
+    } else if (req.imageUrl) {
+      // Jika cloudStoragePublicUrl tidak tersedia, gunakan imageUrl dari helper uploadImageToGCS
+      imageUrl = req.imageUrl;
+    } else {
+      return res.status(500).json({ error: 'Image URL not available' });
+    }
+    
     try {
       const user = await Users.findByPk(id);
       if (!user) {

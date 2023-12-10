@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "londri",
+  "private_key_id": "d84b28d6136109ea5f0ee69734f248c91ce50475",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDP/C8F6Pz+2/yF\nWiEnZwoVxA9Q0yg1DrgNw+jmpWupEkFfqZBRcuRMPmVbVSl/Yvo2DfmRQvJqVLLf\nFJAk5z0gEKkaVRsHLyhBsTcke2b0blNVIlfsu9NIRPLoEklw7J2lYJJlnqg1tgST\nsVz6K3YaNm3odZlZxORwOJYyOEn4SZ/pvig77GvuxRKyDpdEyUItDu3Ow4agqSGG\nb/ec5BLnZrNMD9Ze+Ot/P+yUtLw5I/aYDiKZihbs44MYejrGJFR416ymZMYtGjtv\nup0j0Ad6d03z3bk+oWdSzkfvVgG/KpNoqrEZvI1nkEmzul0cQh9qb7yoLbmfpMnk\n70v9ch1LAgMBAAECggEAGagV0uhRYU0Y4whhw58R3up/KyzJLnZg3Q3YSq+ITuR6\nHQdpTqraH8+oqDIiutymWgmySimUhupo4F0EhRDjePOlMKLkAShfkm7+iukQI8IC\nVKO2bfUjlKwwvNEYry35Kn/1v0RpoqqP+Potqoy29nfVahIrtyezOGa6nHpWIaMW\nautBgNIL4T14PbJ+uIvq6ph8Bh8Bq+V02ACHY+AQCL7TrFBTZlyBxhiCJx3yRjmG\nbFqgzOnlUmk3zhNSNx027bDyj8xa0hEIrdyqSu9FRzm+adGNRDlBZPAgg2eNV6no\nw2XU92bQlUkhSlWDKXRMmdMP12vAsoR0wRZcIKI1oQKBgQDz8WsD2yylU1rBD2pN\nGB4I3AYz5ZZRxqUphVTJ4s2UrWwEOvwFRheeM90LptcL02Dk7xQ1uzVddzv/cwCR\nv6HTq7s4pFKSSQqze0v/vRnLe0ZWh4V+H39NbZafdcRalCS/FO7dX/zhzG9y3VVX\n8jlHtURlT+fzLv87xIfpqiCd6wKBgQDaQ8tImdMd+qNplcMicuH9mEzuE5Nlz0LR\nNyGwdgpF5kqoYX33/gvnVAWhsGp2LM1S7TKyWWieaFJoAkhtTmiZcKLJQn9NcotZ\n8rYUPSIMe5q9pcFfp6iQqqrLp39r8lltwLEYw8839dPTg4Qt3w1CGZdlAlBAsS0b\nUmJfxs7GIQKBgEVpdGHsg4+nYDN/B2hYbHNo5/rsYRFzzJs77RxlBMpBbnLltcBq\naV4Cs+sU1ivvQarivIVtd4nY26GcP5U5SfrI6sT7POOTFRBtDPr/+88CjMkiVsHE\nhJyriihlgjGj5bDZa/5hybsWSMAOarJToijdU1Dgo8d2n/mJuoKqfg1xAoGAEmdg\n/rApwv9dRAvitkblk1KCOhjgdtcxFR8G8jAh0Z8HcIc37e835buJ9gZAE9LXRUTG\n3472aVT2jdqTbNQNsdJzh3DZ9xfPdDgo7i/xbQgHFjKhyYUDi584Y4+uCNYYgE6d\nIC9yi49o2w7d2FhUb9xkjZnSVoIaAZHCxbyntsECgYEAyjI15Prpfa3oF2tkgy3M\nhpAvh4/ANsEptDjNKv6a/2MAbh9pVmTWdmbpD3EU3z46kq2n3J5IT+KLZeo+xTpl\nUB3R3CWuakeRMVeN+bEkVwLrJ1k46oeLJgNR5QZwo5W4+mBeItgRK0c7EOG+zpdw\nDgqODZEHbmVILva8BIC9LTw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "uploadimage@londri.iam.gserviceaccount.com",
+  "client_id": "100161124862645704856",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/uploadimage%40londri.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
