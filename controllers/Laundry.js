@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 
 export const getLaundrys = async (req, res) => {
     try {
-      const users = await Laundrys.findAll({
-        attributes: ['id', 'name', 'email']
+      const laundrys = await Laundrys.findAll({
+        attributes: ['id', 'name', 'email','alamat']
       });
-      res.json(users);
+      res.json(laundrys);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -64,10 +64,11 @@ export const registerLaundry = async (req, res) => {
     telephone,
     latitude,
     longitude,
+    alamat,
   } = req.body;
 
   // Validasi input
-  if (!name || !email || !password || !confPassword || !telephone || !latitude || !longitude) {
+  if (!name || !email || !password || !confPassword || !telephone || !latitude || !longitude || !alamat) {
     return res.status(400).json({ msg: "Semua field harus diisi" });
   }
 
@@ -81,6 +82,7 @@ export const registerLaundry = async (req, res) => {
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(password, salt);
 
+  let imageUrl = ""; 
   try {
     // Gunakan nama yang konsisten
     await Laundrys.create({
@@ -90,6 +92,8 @@ export const registerLaundry = async (req, res) => {
       telephone: telephone,
       latitude: latitude,
       longitude: longitude,
+      alamat : alamat,
+      photo : imageUrl,
     });
 
     res.json({
@@ -138,67 +142,41 @@ export const loginLaundry = async(req, res) => {
     }
   }
 
-  export const service = async (req, res) => {
-    const laundryId = req.params.id;
-    const { cuci, setrika, komplit, komplit_kilat } = req.body;
-  
-    try {
-      // Validate input
-      if (cuci === undefined || setrika === undefined || komplit === undefined || komplit_kilat === undefined) {
-        return res.status(400).json({
-          success: false,
-          statusCode: 400,
-          message: "Invalid input data",
-        });
-      }
-      let harga_cuci=0;
-      let harga_setrika=0;
-      let harga_komplit=0;
-      let harga_komplit_kilat=0;
 
-      if(cuci === 1){
-        harga_cuci = req.body.harga_cuci;
-      }
-      if(setrika === 1){
-        harga_setrika = req.body.harga_setrika;
-      }
-      if(komplit === 1){
-        harga_komplit = req.body.harga_komplit;
-      }
-      if(komplit_kilat === 1){
-        harga_komplit_kilat = req.body.harga_komplit_kilat;
-      }
-  
-      const layanan = await Laundrys.findByPk(laundryId);
-  
-      if (!layanan) {
+  export const laundryStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status  } = req.body;
+    try {
+      const luandry = await Laundrys.findByPk(id);
+      if (!luandry) {
         return res.status(404).json({
           success: false,
-          statusCode: 404,
-          message: "Laundry Tidak Ditemukan",
+          statusCode: res.statusCode,
+          message: "Luandry not found",
         });
       }
-  
-      // Update the database record
-      await Laundrys.update(
-        { cuci, setrika, komplit, komplit_kilat,harga_cuci,harga_setrika,harga_komplit,harga_komplit_kilat },
-        { where: { id: laundryId } }
-      );
-  
+      await luandry.update({
+        status,
+      });
       res.json({
         success: true,
         statusCode: res.statusCode,
         message: "Success",
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       res.status(500).json({
         success: false,
-        statusCode: 500,
+        statusCode: res.statusCode,
         error: {
-          message: "Internal Server Error",
+          message: error.message,
           uri: req.originalUrl,
         },
       });
     }
   };
+
+
+
+
+ 

@@ -57,7 +57,6 @@ export const getUsers = async (req, res) => {
   };
   
 
-
 export const Register = async (req, res) => {
     const { name, email, password, confPassword, telephone } = req.body;
 
@@ -128,3 +127,44 @@ export const Login = async(req, res) => {
         res.status(404).json({msg:"Email tidak ditemukan"})
     }
   }
+
+
+export const editUser = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, telephone ,latitude, longitude, alamat } = req.body;
+    let imageUrl = "";
+    try {
+      const user = await Users.findByPk(id);
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          statusCode: res.statusCode,
+          message: "User not found",
+        });
+      }
+      await user.update({
+        name,
+        email,
+        telephone,
+        latitude,
+        longitude,
+        alamat,
+        photo: imageUrl,
+      });
+      res.json({
+        success: true,
+        statusCode: res.statusCode,
+        message: "Success",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        statusCode: res.statusCode,
+        error: {
+          message: error.message,
+          uri: req.originalUrl,
+        },
+      });
+    }
+  };

@@ -1,17 +1,21 @@
 GET http://localhost:5000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLW1FaC1tVDhfIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6ImNvbnRvaDEyMjNAZ21haWwuY29tIiwiaWF0IjoxNzAxNjg4NTc3LCJleHAiOjE3MDE2ODg1OTd9.xiG-gemoq0gRdKLQu9Uuj33RW5rESwf2D8C5uw_4E_E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXBkSW1ySmZSIiwibmFtZSI6IlJlemEgSGFmaXMiLCJlbWFpbCI6ImNvbnRvaDEyQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEyMzE1MSwiZXhwIjoxNzAyMTIzMTcxfQ.JQaszRhDUYaTZPaifeuYS2_ku-6bD7FpTzDsomIGnzA
 
 ###
 GET http://localhost:5000/users/user-t9fEL3rr
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXQ5ZkVMM3JyIiwibmFtZSI6IkhhZmlzIiwiZW1haWwiOiJjb250b2hAZ21haWwuY29tIiwiaWF0IjoxNzAxOTU4NTg1LCJleHAiOjE3MDE5NTg2MDV9.f0DiFS2TF_BVs6p7hsTkeRgrfFFgSRQXzWVJJHjVTrM
 
 ###
+GET http://localhost:5000/ser
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLVpWLXNma2RGIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6ImNvbnRvaDEyQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEzODM4NiwiZXhwIjoxNzAyMTM4NDA2fQ.ZyL_oVASxwM0sTj2k_toVb83hYU394H7ny--PnzM8Ks
+
+###
 POST http://localhost:5000/register
 Content-Type: application/json
 
 {
-    "name": "Reza",
-    "email": "contoh12@gmail.com",
+    "name": "Hafis",
+    "email": "contoh6@gmail.com",
     "password": "123",
     "confPassword": "123",
     "telephone" : "08392337398"
@@ -22,8 +26,21 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "contoh@gmail.com",
+    "email": "contoh12@gmail.com",
     "password": "123"
+}
+
+###
+PUT  http://localhost:5000/user/edit/user-pdImrJfR
+Content-Type: application/json
+
+{
+    "name": "Reza Hafis",
+    "email": "contoh12@gmail.com",
+    "telephone": "08928263637",
+    "latitude": "-7.8900",
+    "longitude" : "110.3570",
+    "alamat": "Sewon"
 }
 
 ###
@@ -41,7 +58,8 @@ Content-Type: application/json
     "confPassword": "123",
     "telephone" : "083923sdsd37398",
     "latitude" : "-7.87639",
-    "longitude": "110.35889"
+    "longitude": "110.35889",
+    "alamat": "Sewon"
 }
 
 
@@ -50,25 +68,53 @@ POST http://localhost:5000/laundry/login
 Content-Type: application/json
 
 {
-    "email": "laundryReza@gmail.com",
+    "email": "laundry@gmail.com",
     "password": "123"
 }
 
+
+
+
 ###
 GET http://localhost:5000/laundrys
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXVuZHJ5SUQiOiJsYXVuZHJ5LTFJaFZNWG1HIiwibmFtZSI6IlJlemEgTGF1bmRyeSIsImVtYWlsIjoibGF1bmRyeVJlemFAZ21haWwuY29tIiwiaWF0IjoxNzAxNzA2MTAyLCJleHAiOjE3MDE3MDYxMjJ9.uSh6zNZACVXu6Xe1_l5ox32iGPDdTZM4JSaV3xA21Ww
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXVuZHJ5SUQiOiJsYXVuZHJ5LW4xbmR2QUdBIiwibmFtZSI6IkFuZHJpIExhdW5kcnkiLCJlbWFpbCI6ImxhdW5kcnlAZ21haWwuY29tIiwiaWF0IjoxNzAyMTIzMTcxLCJleHAiOjE3MDIxMjMxOTF9.-d7ApWD9on2V8X5DAWwpAo2W6qXPKgI9HUf_VwexkDs
 
 
 
 ###
-POST http://localhost:5000/laundry/service/laundry-2M6Qnav8
+PUT http://localhost:5000/laundry/status/1
 Content-Type: application/json
 
 {
-    "cuci": 1,
-    "setrika": 0,
-    "komplit": 1,
-    "komplit_kilat": 0,
-    "harga_cuci": 5000,
-    "harga_komplit":7000
+    "status": "Open"
+}
+
+
+###
+POST http://localhost:5000/laundry/service/1
+Content-Type: application/json
+
+{
+    "namaLayanan": "Cuci",
+    "harga": "5000"
+}
+
+###
+PUT http://localhost:5000/laundry/service/layanan-n1gy-UR8
+Content-Type: application/json
+
+{
+    "namaLayanan": "Setrika",
+    "harga": "3000"
+}
+
+
+###
+POST http://localhost:5000/order/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLVpWLXNma2RGIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6ImNvbnRvaDEyQGdtYWlsLmNvbSIsImlhdCI6MTcwMjE0MDczMSwiZXhwIjoxNzAyMTQwNzUxfQ.Vaz7fVNkFKG_loTZQOgveuQYms39zR_D9dnk3nESdWo
+
+{
+    "layanan": "layanan-n1gy-UR8",
+    "estimasi": 3,
+    "catatan": "Cuci Bersih"
 }
