@@ -39,3 +39,35 @@
   "latitude": 37.7749,
   "longitude": -122.4194
 }
+```
+**Response:**
+```json
+{
+    "next_most_likely_indices": [
+        675,
+        684,
+        667,
+        709,
+        80,
+        700,
+        266,
+        604,
+        729,
+        678,
+        669,
+        702,
+        710,
+        725,
+        732
+    ],
+    "status": "Input berhasil diproses"
+}
+```
+
+### Depedencies
+Google Cloud Storage: Used to download the MinMaxScaler and trained machine learning model.
+
+### Installation
+```bash
+pip install Flask google-cloud-storage numpy tensorflow
+python your_api_filename.py
