@@ -11,11 +11,10 @@ import router from "./routes/index.js";
 dotenv.config();
 const app = express();
 
-async function startServer() {
   try {
     await db.authenticate();
     console.log('Database Connected....');
-      await db.sync()
+      // await db.sync()
   } catch (error) {
     console.error(error);
   }
@@ -23,9 +22,11 @@ async function startServer() {
   app.use(cors());
   app.use(cookieParser());
   app.use(express.json());
+  
+  app.get("/", (req, res) => {
+    res.send("API Ready");
+  });
   app.use(router);
   const port = process.env.SERVER_PORT
   app.listen(port, () => console.log(`Server Listening at port ${port}`));
-}
 
-startServer();
