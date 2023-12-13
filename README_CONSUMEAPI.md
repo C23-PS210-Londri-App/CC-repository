@@ -11,13 +11,15 @@ https://mlmodel-api-mr4guvmuya-et.a.run.app
 
 POST /proses_input
 
-```
+
 #### Request
 
 - **Method**: `POST`
 - **Content-Type**: `application/json`
 - **Body**: JSON object with the following fields:
   - `laundry_id`: ID of the laundry (int 1-740)
+
+#### Request Example
   ```
     {
       "laundry_id": "738
