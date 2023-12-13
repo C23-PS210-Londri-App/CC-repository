@@ -5,19 +5,24 @@ https://mlmodel-api-mr4guvmuya-et.a.run.app
 
 ## Endpoints
 
-### 1. Process Input
+### Process Input
 
 #### Endpoint
 
 POST /proses_input
 
-
+```
 #### Request
 
 - **Method**: `POST`
 - **Content-Type**: `application/json`
 - **Body**: JSON object with the following fields:
-  - `laundry_id`: ID of the laundry (string)
+  - `laundry_id`: ID of the laundry (int 1-740)
+  ```
+  {
+    "laundry_id": "738
+  }
+  ```
 
 #### Response
 
@@ -35,7 +40,7 @@ POST /proses_input
   ]
 }
 ```
-#### Error Response
+- **Error Response:**
 ```
 {
   "error": "Invalid laundry_id"
