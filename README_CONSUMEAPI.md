@@ -19,9 +19,9 @@ POST /proses_input
 - **Body**: JSON object with the following fields:
   - `laundry_id`: ID of the laundry (int 1-740)
   ```
-  {
-    "laundry_id": "738
-  }
+    {
+      "laundry_id": "738
+    }
   ```
 
 #### Response
