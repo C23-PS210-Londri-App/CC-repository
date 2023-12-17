@@ -4,10 +4,20 @@ This API provides endpoints for user registration, login, fetching user data, an
 
 ## Table of Contents
 
-- [Endpoints](#endpoints)
-  - [User API](#user-api)
-  - [Laundry API](#laundry-api)
-
+- [LONDRI API](#londri-api)
+  - [Table of Contents](#table-of-contents)
+  - [Endpoints](#endpoints)
+    - [User API](#user-api)
+      - [Get Users](#get-users)
+      - [Get Users By ID](#get-users-by-id)
+      - [User Registration](#user-registration)
+      - [User LOGIN](#user-login)
+    - [Laundry API](#laundry-api)
+      - [Get Laundry Services](#get-laundry-services)
+      - [Get LAUNDRY By ID](#get-laundry-by-id)
+      - [Laundry Registration](#laundry-registration)
+      - [Laundry LOGIN](#laundry-login)
+      - [Laundry EDIT STATUS](#laundry-edit-status)
 ## Endpoints
 
 ### User API
@@ -15,16 +25,49 @@ This API provides endpoints for user registration, login, fetching user data, an
 #### Get Users
 
 - **Endpoint:** `GET /users`
+- **Method**: GET
 - **Description:** Get a list of users with limited information.
 - **Authentication:** Requires a valid access token.
 - **Headers:**
     - `Authorization` : `Bearer < token >`
+- **Response**
+  ```json
+  {
+    "id": "user-agdKaSq2",
+    "name": "Hafis",
+    "email": "reza@gmail.com"
+  }
+
+#### Get Users By ID
+
+- **Endpoint:** `GET /users/:id`
+- **Method**: GET
+- **Description:** Get a list of users with limited information.
+- **Authentication:** Requires a valid access token.
+- **Headers:**
+    - `Authorization` : `Bearer < token >`
+- **Response**
+  - Status : 200
+  ```json
+  {
+    "success": true,
+    "statusCode": res.statusCode,
+    "message": "Pengguna diambil dengan sukses",
+    "user" : {
+      "id": "user-agdKaSq2",
+      "name": "Hafis",
+      "email": "reza@gmail.com",
+      "telephone" : "0892829"
+    }
+  }
+
 
 #### User Registration
 
 - **Endpoint:** `POST /register`
+- **Method**: POST
 - **Description:** Register a new user.
-  - **Request Body:**
+- **Request Body:**
   ```json
   {
     "name": "John Doe",
@@ -58,6 +101,7 @@ This API provides endpoints for user registration, login, fetching user data, an
   #### User LOGIN
 
 - **Endpoint:** `POST /login`
+- **Method**: POST
 - **Description:** Login for User.
   - **Request Body:**
   ```json
@@ -96,12 +140,66 @@ This API provides endpoints for user registration, login, fetching user data, an
 #### Get Laundry Services
 
 - **Endpoint:** `GET /laundrys`
+- **Method**: GET
 - **Description:** Get a list of laundry services.
+- **Headers:**
+    - `Authorization` : `Bearer < token >`
 - **Authentication:** Requires a valid access token.
+- **Response :**
+  ```json
+  {
+    [
+      {
+          "id": 1,
+          "name": "Reza Laundry",
+          "email": "laundry@gmail.com",
+          "alamat": "Sewon"
+      },
+      {
+          "id": 3,
+          "name": "Bersih Laundry",
+          "email": "laundryRa@gmail.com",
+          "alamat": "Jl. Merdeka"
+      },
+    ]
+    }
+
+#### Get LAUNDRY By ID
+
+- **Endpoint:** `GET /laundry/:id`
+- **Method**: GET
+- **Description:** Get a list of laudnry with limited information.
+- **Authentication:** Requires a valid access token.
+- **Headers:**
+    - `Authorization` : `Bearer < token >`
+- **Response**
+  - Status : 200
+    ```json
+      {
+        "success": true,
+        "statusCode": res.statusCode,
+        "message": "Pengguna diambil dengan sukses",
+        "user" : {
+          "id": "user-agdKaSq2",
+          "name": "Hafis",
+          "alamat": "Jalan Manukwari",
+          "telephone" : "0892829",
+          "status" : "Open"
+        }
+      }
+  - Status : 404
+    ```json
+      {
+        "success": false,
+        "statusCode": res.statusCode,
+        "message": "Pengguna tidak ditemukan"
+      }
+  
 
 #### Laundry Registration
 
 - **Endpoint:** `POST /laundry/register`
+- **Method**: POST
 - **Description:** Register a new laundry service.
 - **Request Body:**
   ```json
@@ -141,6 +239,7 @@ This API provides endpoints for user registration, login, fetching user data, an
 #### Laundry LOGIN
 
 - **Endpoint:** `POST /laundry/login`
+- **Method**: POST
 - **Description:** Login for Laundry.
   - **Request Body:**
   ```json
@@ -172,5 +271,42 @@ This API provides endpoints for user registration, login, fetching user data, an
   "statusCode": 404,
     "message": "Email tidak ditemukan!"
   }
+
+
+
+#### Laundry EDIT STATUS
+
+- **Endpoint:** `POST /laundry/status/:id`
+- **Method**: PUT
+- **Description:** EDIT STATUS for Laundry.
+- **Headers:**
+    - `Authorization` : `Bearer < token >`  
+- **Request Body:**
+  ```json
+  {
+    "status": "Open"
+  }
+- **Response**
+  - status code : 200
+    ```json
+    {
+        "success": true,
+        "statusCode": res.statusCode,
+        "message": "Success",
+    }
+    
+  - status code : 500
+    ```json
+    {
+    "succes": false,
+    "message": "Password Wrong!"
+    }
+  - status code : 404
+    ```json
+    {
+      "success": false,
+      "statusCode": res.statusCode,
+      "message": "Luandry not found",
+    }
 
 

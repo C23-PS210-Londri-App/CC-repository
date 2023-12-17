@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+import db from "../config/Database.js";
 import { nanoid } from "nanoid";
 import Laundrys from "./laundryModel.js";
-import Users from "./userModel.js";
+import Users from "./UserModel.js";
 import Layanan from "./layananModel.js";
 
 const { DataTypes } = Sequelize;
@@ -10,9 +10,9 @@ const Order = db.define(
     "order",
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        autoIncrement : true,
         primaryKey: true,
-        defaultValue: () => `layanan-${nanoid(8)}`,
       },
       orderTrx: {
         type: DataTypes.STRING,

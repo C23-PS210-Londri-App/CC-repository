@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
@@ -13,7 +13,7 @@ const Laundrys = db.define(
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       telephone: {
         type: DataTypes.STRING,
@@ -21,12 +21,11 @@ const Laundrys = db.define(
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: true,
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       refresh_token: {
         type: DataTypes.TEXT,
@@ -38,7 +37,7 @@ const Laundrys = db.define(
       },
       latitude: {
         type: DataTypes.STRING,
-        defaultValue: 0,
+        allowNull: true,
       },
       longitude: {
         type: DataTypes.STRING,

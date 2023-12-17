@@ -55,33 +55,24 @@ export const getLaundrys = async (req, res) => {
     }
   };
 
-export const registerLaundry = async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    confPassword,
-    telephone,
-    latitude,
-    longitude,
-    alamat,
-  } = req.body;
-
-  // Validasi input
-  if (!name || !email || !password || !confPassword || !telephone || !latitude || !longitude || !alamat) {
-    return res.status(400).json({ msg: "Semua field harus diisi" });
-  }
-
-  if (password !== confPassword) {
-    return res.status(400).json({ msg: "Password dan Confirm Password tidak cocok" });
-  }
-
-  // Validasi email (bisa ditambahkan validasi lainnya sesuai kebutuhan)
-  // ...
-
-  const salt = await bcrypt.genSalt();
-  const hashPassword = await bcrypt.hash(password, salt);
-  let status = "Open";
+  export const registerLaundry = async (req, res) => {
+    const {
+      email,
+      password,
+      telephone,
+      name,
+      alamat,
+      latitude,
+      longitude,
+    } = req.body;
+  
+    // Validations
+    if (!email || !password || !telephone || !name || !alamat || !latitude || !longitude) {
+      return res.status(400).json({ msg: "Semua field harus diisi" });
+    }
+  
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(password, salt)
   
   let imageUrl = "";
     // Cek apakah file dan cloudStoragePublicUrl tersedia
@@ -93,65 +84,106 @@ export const registerLaundry = async (req, res) => {
     } else {
       return res.status(500).json({ error: 'Image URL not available' });
     }
-  try {
-    // Gunakan nama yang konsisten
-    await Laundrys.create({
-      name: name,
-      email: email,
-      password: hashPassword,
-      telephone: telephone,
-      latitude: latitude,
-      longitude: longitude,
-      alamat : alamat,
-      photo : imageUrl,
-      status: status,
-    });
-
-    res.json({
-      msg: 'Register Berhasil',
-    });
-  } catch (error) {
-    console.error(error);
-
-    // Tanggapan kesalahan yang lebih deskriptif
-    res.status(500).json({ error: 'Gagal melakukan registrasi' });
-  }
-};
-
-export const loginLaundry = async(req, res) => {
     try {
-        const laundry = await Laundrys.findAll({
-            where:{
-                email: req.body.email
-            }
-        });
-        const match = await bcrypt.compare(req.body.password, laundry[0].password)
-        if(!match) return res.status(400).json({msg: "Wrong Password"})
-        const laundryID = laundry[0].id;
-        const name = laundry[0].name;
-        const email = laundry[0].email;
-        const accessToken = jwt.sign({laundryID,name,email}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn:'20s'
-        })
-        const refreshToken = jwt.sign({laundryID,name,email}, process.env.REFRESH_TOKEN_SECRET,{
-            expiresIn:'1d'
-        })
-        await Laundrys.update({refresh_token: refreshToken},{
-            where:{
-                id:laundryID
-            }
-        })
-        res.cookie('refreshToken', refreshToken,{
-            httpOnly:  true,
-            maxAge:24*60*60 *1000,
-        })
-        res.json({accessToken})
-
+      const createdLaundry = await Laundrys.create({
+        email,
+        password: hashPassword,
+        telephone,
+        name,
+        alamat,
+        latitude,
+        longitude,
+        photo: imageUrl,
+        status: "Open",
+      });
+  
+      const responseBody = {
+        error: false,
+        message: "Registrasi berhasil dilakukan",
+        response: {
+          id: createdLaundry.id,
+          namaLengkap: null, // Update with actual field value
+          email: createdLaundry.email,
+          nomorTelepon: createdLaundry.nomor_telepon,
+          namaLaundry: createdLaundry.nama_laundry,
+          fotoLaundry: createdLaundry.photo,
+          alamat: createdLaundry.alamat,
+          latitude: createdLaundry.latitude,
+          longitude: createdLaundry.longitude,
+          passwordToken: null, // Update with actual field value
+          status: createdLaundry.status,
+          createdAt: createdLaundry.createdAt,
+          updatedAt: createdLaundry.updatedAt,
+        },
+      };
+  
+      res.status(201).json(responseBody);
     } catch (error) {
-        console.log(error)
-        res.status(404).json({msg:"Email tidak ditemukan"})
+      console.error(error);
+  
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        // Handle case where email is already registered
+        return res.status(403).json({
+          error: true,
+          message: "Email sudah terdaftar",
+        });
+      }
+  
+      res.status(500).json({ error: 'Gagal melakukan registrasi' });
     }
-  }
+  };
+
+  export const loginLaundry = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      if (!email || !password) {
+        return res.status(400).json({
+          error: true,
+          message: "Email dan password harus diisi",
+        });
+      }
+  
+      const laundry = await Laundrys.findOne({
+        where: { email },
+      });
+  
+      if (!laundry) {
+        return res.status(403).json({
+          error: true,
+          message: "Email tidak terdaftar",
+        });
+      }
+  
+      const match = await bcrypt.compare(password, laundry.password);
+  
+      if (!match) {
+        return res.status(401).json({
+          error: true,
+          message: "Password tidak sesuai",
+        });
+      }
+  
+      const { id, name } = laundry;
+      const accessToken = jwt.sign({ laundryID: id, name, email }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '20s',
+      });
+  
+      res.json({
+        error: false,
+        message: "Login berhasil",
+        response: {
+          token: accessToken,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        error: true,
+        message: "Gagal melakukan login",
+      });
+    }
+  };  
 
 
   export const laundryStatus = async (req, res) => {
