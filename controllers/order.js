@@ -74,9 +74,6 @@ const calculateTotalPrice = (layanan, estimasiBerat) => {
   return weightPrice * estimasiBerat;
 };
 
-
-
-
 export const allOrderforUser = async (req, res) => {
   try {
     const user = req.user.userId;
@@ -130,8 +127,6 @@ export const allOrderforUser = async (req, res) => {
     });
   }
 };
-
-
 
 export const allOrderProcessforUser = async (req, res) => {
   try {
@@ -214,7 +209,7 @@ export const allOrderSuccessforUser = async (req, res) => {
 
     const resultOrders = await Promise.all(
       orders.map(async (order) => {
-        // Check if the order is not marked as "selesai"
+
         if (order.status === 'Selesai') {
           const laundry = await Laundry.findByPk(order.id_laundry);
           const layanan = await Layanan.findByPk(order.id_layanan);
@@ -234,12 +229,11 @@ export const allOrderSuccessforUser = async (req, res) => {
             namaLayanan: layanan ? layanan.name : null,
           };
         } else {
-          return null; // Exclude completed orders
+          return null; 
         }
       })
     );
 
-    // Filter out null values (completed orders)
     const filteredResultOrders = resultOrders.filter(order => order !== null);
 
     res.status(201).json({

@@ -10,13 +10,17 @@ const Layanan = db.define(
       id: {
         type: DataTypes.STRING,
         primaryKey: true,
-        defaultValue: () => `layanan-${nanoid(8)}`,
+        defaultValue: () => `layanan-${nanoid(4)}`,
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       harga: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      status: {
         type: DataTypes.STRING,
         allowNull: true,
       },

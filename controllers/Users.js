@@ -3,50 +3,27 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from 'validator';
 
-export const getUsers = async (req, res) => {
-    const userID = req.user
+
+export const showProfile = async (req, res ) => {
+    const userID = req.user.userId
+    
     try {
-        const users = await Users.findAll({
-            attributes: ['id', 'name', 'email']
+        const userData = await Users.findByPk(userID, {
+            attributes: ['id', 'name', 'email','telephone','photo','alamat','latitude','longitude']
         });
-        res.json(userID);
+
+        res.json({
+          success : true,
+          message : 'Load Profile Berhasil',
+          response: userData
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+  
 };
 
-export const getUserById = async (req, res) => {
-    const userId = req.params.id;
-
-    try {
-        const user = await Users.findByPk(userId, {
-            attributes: ['id', 'name', 'email', 'telephone']
-        });
-
-        if (!user) {
-            return res.status(404).json({
-                error: true,
-                message: "Pengguna tidak ditemukan",
-            });
-        }
-
-        res.json({
-            error: false,
-            message: "Pengguna diambil dengan sukses",
-            user,
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            error: true,
-            message: error.message,
-            uri: req.originalUrl,
-        });
-
-        console.log(error);
-    }
-};
 
 export const Register = async (req, res) => {
     const { name, email, password, confPassword, telephone } = req.body;
@@ -145,7 +122,7 @@ export const Login = async (req, res) => {
 
 
 export const editUser = async (req, res) => {
-  const { id } = req.params;
+  const userID = req.user.userId
   const { name, email, telephone, latitude, longitude, alamat } = req.body;
 
   let imageUrl = "";
@@ -159,7 +136,7 @@ export const editUser = async (req, res) => {
   }
 
   try {
-    const user = await Users.findByPk(id);
+    const user = await Users.findByPk(userID);
 
     if (!user) {
       return res.status(404).json({
@@ -169,7 +146,7 @@ export const editUser = async (req, res) => {
       });
     }
 
-    await user.update({
+    const userUpdate = await user.update({
       name,
       email,
       telephone,
@@ -181,8 +158,8 @@ export const editUser = async (req, res) => {
 
     res.json({
       success: true,
-      statusCode: res.statusCode,
-      message: "Success",
+      message: "Edit Profile Succes",
+      response: userUpdate
     });
   } catch (error) {
     console.log(error);

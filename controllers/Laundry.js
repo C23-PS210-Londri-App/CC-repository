@@ -1,59 +1,112 @@
 import Laundrys from "../models/laundryModel.js";
+import Layanan from "../models/layananModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const getLaundrys = async (req, res) => {
-    try {
-      const laundrys = await Laundrys.findAll({
-        attributes: ['id', 'name', 'email','alamat']
-      });
-      res.json(laundrys);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
+export const getAllLaundrys = async (req, res) => {
+  try {
+    const laundries = await Laundrys.findAll();
+    const laundriesWithServices = [];
 
-  export const getLaundryById = async (req, res) => {
-    const laundryId = req.params.id;
-  
-    try {
-      const laundry = await Laundrys.findByPk(laundryId, {
-        attributes: ['name', 'alamat', 'telephone', 'status']
+    for (const laundry of laundries) {
+      const laundryId = laundry.id;
+
+      const services = await Layanan.findAll({
+        where: { id_laundry: laundryId },
       });
-  
-      // Jika pengguna tidak ditemukan, beri respons dengan status 404 dan pesan kesalahan
-      if (!laundry) {
-        return res.status(404).json({
-          success: false,
-          statusCode: res.statusCode,
-          message: "Pengguna tidak ditemukan",
-        });
-      }
-  
-      // Beri respons dengan objek JSON yang berisi informasi pengguna yang diambil
-      res.json({
-        success: true,
-        statusCode: res.statusCode,
-        message: "Pengguna diambil dengan sukses",
-        laundry,
-      });
-  
-    } catch (error) {
-      // Jika terjadi kesalahan selama blok try, tangani dan beri respons dengan JSON kesalahan
-      res.status(500).json({
-        success: false,
-        statusCode: res.statusCode,
+
+      const laundryWithServices = {
+        id: laundry.id,
+        namaLaundry: laundry.name,
+        alamat: laundry.alamat,
+        fotoLaundry: laundry.photo,
+        nomorTelepon:laundry.telephone,
+        status:laundry.status,
+        layanan: services.map((service) => ({
+          id: service.id,
+          namaLayanan: service.name,
+          harga: service.harga,
+        })),
+      };
+      laundriesWithServices.push(laundryWithServices);
+    }
+
+    const responseData = {
+      error: false,
+      message: "Daftar Laundry berhasil ditampilkan",
+      resultData: laundriesWithServices,
+    };
+
+    res.json(responseData);
+  } catch (error) {
+    console.error("Error fetching laundries with services:", error);
+    res.status(500).json({
+      error: true,
+      statusCode: 500,
+      error: {
+        message: "Internal Server Error",
+      },
+    });
+  }
+};
+
+export const getLaundryDetail = async (req, res) => {
+  const { idLaundry } = req.params;
+
+  console.log('idLaundry:', idLaundry); // Log the value of idLaundry
+
+  try {
+    const laundry = await Laundrys.findByPk(idLaundry, {
+      include: [
+        {
+          model: Layanan,
+          attributes: ['id', 'name', 'harga'],
+        },
+      ],
+    });
+
+    if (!laundry) {
+      return res.status(404).json({
+        error: true,
+        statusCode: 404,
         error: {
-          message: error.message,
-          uri: req.originalUrl,
+          message: "Laundry not found",
         },
       });
-  
-      // Catat kesalahan ke konsol untuk tujuan debugging
-      console.log(error);
     }
-  };
+
+    const laundryDetail = {
+      id: laundry.id,
+      namaLaundry: laundry.name,
+      alamat: laundry.alamat,
+      fotoLaundry: laundry.photo,
+      nomorTelepon: laundry.telephone,
+      status: laundry.status,
+      layanan: laundry.layanans.map((service) => ({
+        id: service.id,
+        namaLayanan: service.name,
+        harga: service.harga,
+      })),
+    };
+
+    const responseData = {
+      error: false,
+      message: "Detail Laundry berhasil ditampilkan",
+      resultData: laundryDetail,
+    };
+
+    res.json(responseData);
+  } catch (error) {
+    console.error("Error fetching laundry details:", error);
+    res.status(500).json({
+      error: true,
+      statusCode: 500,
+      error: {
+        message: "Internal Server Error",
+      },
+    });
+  }
+};
 
   export const registerLaundry = async (req, res) => {
     const {
@@ -166,7 +219,7 @@ export const getLaundrys = async (req, res) => {
   
       const { id, name } = laundry;
       const accessToken = jwt.sign({ laundryID: id, name, email }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '20s',
+        expiresIn: '12h',
       });
   
       res.json({
@@ -185,27 +238,33 @@ export const getLaundrys = async (req, res) => {
     }
   };  
 
-
   export const laundryStatus = async (req, res) => {
-    const { id } = req.params;
-    const { status  } = req.body;
+    const laundryID = req.laundry.laundryID;
+    const {status} = req.body;
+    
     try {
-      const luandry = await Laundrys.findByPk(id);
-      if (!luandry) {
+      const laundry = await Laundrys.findByPk(laundryID);
+      if (!laundry) {
         return res.status(404).json({
           success: false,
           statusCode: res.statusCode,
-          message: "Luandry not found",
+          message: "Laundry not found",
         });
       }
-      await luandry.update({
+      const statusUpdate = await laundry.update({
         status,
       });
+
       res.json({
         success: true,
-        statusCode: res.statusCode,
-        message: "Success",
+        message: "Status Laundry Berhasil Dirubah",
+        resultStatus: {
+          ID_laundry : statusUpdate.id,
+          nama_laundry : statusUpdate.name,
+          status: statusUpdate.status
+        }
       });
+
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -213,14 +272,13 @@ export const getLaundrys = async (req, res) => {
         statusCode: res.statusCode,
         error: {
           message: error.message,
-          uri: req.originalUrl,
         },
       });
     }
-  };
+};
 
   export const editLaundry = async (req, res) => {
-    const { id } = req.params;
+    const laundryID = req.laundry.laundryID;
     const { name, telephone, alamat } = req.body;
     
     let imageUrl = "";
@@ -235,7 +293,7 @@ export const getLaundrys = async (req, res) => {
     }
     
     try {
-      const laundry = await Laundrys.findByPk(id);
+      const laundry = await Laundrys.findByPk(laundryID);
       if (!laundry) {
         return res.status(404).json({
           success: false,
@@ -261,7 +319,6 @@ export const getLaundrys = async (req, res) => {
         statusCode: res.statusCode,
         error: {
           message: error.message,
-          uri: req.originalUrl,
         },
       });
     }

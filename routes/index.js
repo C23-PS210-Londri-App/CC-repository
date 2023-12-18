@@ -1,9 +1,9 @@
 import express from "express" 
-import { Login, Register, editUser, getUserById, getUsers } from "../controllers/Users.js"
+import { Login, Register, editUser, showProfile} from "../controllers/Users.js"
 import { verifyToken }  from "../middleware/verifyToken.js"
 import { refreshToken } from "../controllers/RefreshToken.js" 
-import { editLaundry, getLaundryById, getLaundrys, laundryStatus, loginLaundry, registerLaundry } from "../controllers/Laundry.js"
-import { createService, editService } from "../controllers/service.js"
+import { editLaundry, getAllLaundrys, getLaundryDetail, laundryStatus, loginLaundry, registerLaundry } from "../controllers/Laundry.js"
+import { createService, deleteService, editService, getAllServices, getServiceDetails } from "../controllers/service.js"
 import { allOrderProcessforUser, allOrderSuccessforUser, allOrderforUser, createOrder } from "../controllers/order.js"
 import { upload, uploadImageToGCS } from "../helper/uploadImg.js"
 import { acceptOrder, allOrderforlaundry, detailOrder } from "../controllers/orderOwner.js"
@@ -18,16 +18,21 @@ router.get("/", (req, res) => {
       message: "Successful access homepage API",
     });
   });
-
-// API USER
-router.get('/users', verifyToken ,getUsers)
-router.get("/users/:id", verifyToken ,getUserById);
-router.post('/register', Register)
-router.post('/login', Login)
-router.put('/user/edit/:id',upload.single('photo'),uploadImageToGCS, editUser)
+// GENERETE TOKEN
 router.get('/token', refreshToken)
 
+// API USER AUTH
+router.post('/register', Register)
+router.post('/login', Login)
+
+// API USER PROFILE
+router.get('/user/profile',verifyToken,showProfile)
+router.post('/user/profile/edit',verifyToken,upload.single('photo'),uploadImageToGCS, editUser)
+router.put('/user/profile/edit',verifyToken,upload.single('photo'),uploadImageToGCS, editUser)
+
+
 // API Order User
+router.post('/order/:id', verifyToken,createOrder)
 router.get('/user/order/riwayat',verifyToken,allOrderforUser)
 router.get('/user/order/process',verifyToken,allOrderProcessforUser)
 router.get('/user/order/success',verifyToken,allOrderSuccessforUser)
@@ -38,25 +43,27 @@ router.get('/laundry/order/masuk',verifyToken,allOrderforlaundry)
 router.get('/laundry/order/detail/:orderTrx', verifyToken,detailOrder)
 router.put('/laundry/order/editStatus/:orderTrx', verifyToken,acceptOrder)
 
-
-
-
-
-//API LAUNDRY
-router.get('/laundrys',verifyToken,getLaundrys)
-router.get("/laundrys/:id", verifyToken ,getLaundryById);
+//API LAUNDRY AUTH
 router.post('/laundry/register',upload.single('photo'),uploadImageToGCS,registerLaundry)
 router.post('/laundry/login', loginLaundry)
-router.put('/laundry/status/:id', verifyToken ,laundryStatus)
-router.put('/laundry/edit/:id',upload.single('photo'),uploadImageToGCS,editLaundry)
-
-// API UNTUK LAYANAN
-router.post('/laundry/service/:id',verifyToken , createService)
-router.put('/laundry/service/:id', verifyToken , editService)
 
 
-// API UNTUK ORDER
-router.post('/order/:id', verifyToken,createOrder) // masih salah
+// API GET LAUNDRY
+router.get('/laundrys',verifyToken,getAllLaundrys)
+router.get('/laundrys/detail/:idLaundry', verifyToken ,getLaundryDetail);
+
+// API LAUNDRY PROFILE
+router.put('/laundry/status', verifyToken ,laundryStatus)
+router.post('/laundry/profile/edit',upload.single('photo'),uploadImageToGCS,editLaundry)
+router.put('/laundry/profile/edit',upload.single('photo'),uploadImageToGCS,editLaundry)
+
+// API UNTUK LAUNDRY LAYANAN
+router.get('/laundry/service/all',verifyToken, getAllServices)
+router.get('/laundry/service/detail/:idLayanan',verifyToken,getServiceDetails)
+router.post('/laundry/service/create',verifyToken , createService)
+router.post('/laundry/service/edit/:idLayanan', verifyToken , editService)
+router.put('/laundry/service/edit/:idLayanan', verifyToken , editService)
+router.delete('/laundry/service/delete/:idLayanan',verifyToken, deleteService)
 
 
 export default router
