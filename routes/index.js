@@ -46,7 +46,17 @@ router.put('/laundry/order/editStatus/:orderTrx', verifyToken,acceptOrder)
 //API LAUNDRY AUTH
 router.post('/laundry/register',upload.single('photo'),uploadImageToGCS,registerLaundry)
 router.post('/laundry/login', loginLaundry)
+<<<<<<< HEAD
 
+=======
+router.put('/laundry/status/:id', verifyToken ,laundryStatus)
+router.put('/laundry/edit/:id',upload.single('photo'),uploadImageToGCS,editLaundry)
+
+// API routes for LAYANAN
+router.post('/laundry/service/:id', verifyToken, createService);
+router.put('/laundry/service/:id', verifyToken, editService);
+router.delete('/laundry/service/delete/:id', verifyToken, deleteService);
+>>>>>>> c553798674b0c0758b396d5b217a34efacaa2ae2
 
 // API GET LAUNDRY
 router.get('/laundrys',verifyToken,getAllLaundrys)
