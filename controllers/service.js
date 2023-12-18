@@ -90,3 +90,33 @@ export const editService = async (req, res) => {
     });
   }
 };
+
+// Delete a specific laundry service
+export const deleteService = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const layanan = await Layanan.findByPk(id);
+
+    if (!layanan) {
+      return res.status(404).json({
+        error: true,
+        message: `Layanan #${id} tidak ditemukan`,
+      });
+    }
+
+    // Delete the record
+    await layanan.destroy();
+
+    res.status(200).json({
+      error: false,
+      message: "Layanan laundri berhasil dihapus",
+    });
+  } catch (error) {
+    console.error("Error deleting service:", error);
+    res.status(500).json({
+      error: true,
+      message: "Gagal menghapus layanan",
+    });
+  }
+};

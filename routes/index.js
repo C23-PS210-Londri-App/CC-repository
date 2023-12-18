@@ -50,10 +50,10 @@ router.post('/laundry/login', loginLaundry)
 router.put('/laundry/status/:id', verifyToken ,laundryStatus)
 router.put('/laundry/edit/:id',upload.single('photo'),uploadImageToGCS,editLaundry)
 
-// API UNTUK LAYANAN
-router.post('/laundry/service/:id',verifyToken , createService)
-router.put('/laundry/service/:id', verifyToken , editService)
-
+// API routes for LAYANAN
+router.post('/laundry/service/:id', verifyToken, createService);
+router.put('/laundry/service/:id', verifyToken, editService);
+router.delete('/laundry/service/delete/:id', verifyToken, deleteService);
 
 // API UNTUK ORDER
 router.post('/order/:id', verifyToken,createOrder) // masih salah
