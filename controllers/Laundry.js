@@ -323,3 +323,40 @@ export const getLaundryDetail = async (req, res) => {
       });
     }
   };
+
+
+  export const showFullProfile = async (req, res) => {
+    try {
+      // Assuming that the admin ID is stored in the session (replace with your actual middleware logic)
+      const laundryID = req.laundry.laundryID;
+  
+      const data = await Laundrys.findByPk(laundryID, {
+        include: {
+          model: Layanan,
+          attributes: ['id', 'name', 'harga', 'status'],
+        },
+      });
+  
+      if (!data) {
+        return res.status(404).json({
+          error: true,
+          message: "Admin not found",
+        });
+      }
+  
+      // Omitting password for security
+      const { password,refresh_token, ...userDataWithoutPassword } = data.toJSON();
+  
+      return res.status(200).json({
+        error: false,
+        message: "Load profile berhasil",
+        response: userDataWithoutPassword,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: true,
+        message: error.message || "Internal server error",
+      });
+    }
+  };
