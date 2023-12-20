@@ -1,70 +1,29 @@
 # LONDRI API
+Backend API for LONDRI Owner and User App
 
-This API provides endpoints for user registration, login, fetching user data, and laundry services.
+## How to Use
+1. Install using NPM
+   `npm install`
+2. Download file .env
+3. How to Run
+   `npm start`
+  
+## Endpoints Routes
 
-## Table of Contents
-
-- [LONDRI API](#londri-api)
-  - [Table of Contents](#table-of-contents)
-  - [Endpoints](#endpoints)
-    - [User API](#user-api)
-      - [Get Users](#get-users)
-      - [Get Users By ID](#get-users-by-id)
-      - [User Registration](#user-registration)
-      - [User LOGIN](#user-login)
-    - [Laundry API](#laundry-api)
-      - [Get Laundry Services](#get-laundry-services)
-      - [Get LAUNDRY By ID](#get-laundry-by-id)
-      - [Laundry Registration](#laundry-registration)
-      - [Laundry LOGIN](#laundry-login)
-      - [Laundry EDIT STATUS](#laundry-edit-status)
-## Endpoints
-
-### User API
-
-#### Get Users
-
-- **Endpoint:** `GET /users`
-- **Method**: GET
-- **Description:** Get a list of users with limited information.
-- **Authentication:** Requires a valid access token.
-- **Headers:**
-    - `Authorization` : `Bearer < token >`
-- **Response**
+#### Default Routes
+- **Endpoint:** `/`
+- **Method**: `GET`
+- **Description:** To Check API is Running
+- **Response Body:**
   ```json
   {
-    "id": "user-agdKaSq2",
-    "name": "Hafis",
-    "email": "reza@gmail.com"
+    "error": false,
+    "statusCode": 200,
+    "message": "Successful access homepage API"
   }
-
-#### Get Users By ID
-
-- **Endpoint:** `GET /users/:id`
-- **Method**: GET
-- **Description:** Get a list of users with limited information.
-- **Authentication:** Requires a valid access token.
-- **Headers:**
-    - `Authorization` : `Bearer < token >`
-- **Response**
-  - Status : 200
-  ```json
-  {
-    "success": true,
-    "statusCode": res.statusCode,
-    "message": "Pengguna diambil dengan sukses",
-    "user" : {
-      "id": "user-agdKaSq2",
-      "name": "Hafis",
-      "email": "reza@gmail.com",
-      "telephone" : "0892829"
-    }
-  }
-
 
 #### User Registration
-
-- **Endpoint:** `POST /register`
+- **Endpoint:** `/register`
 - **Method**: POST
 - **Description:** Register a new user.
 - **Request Body:**
@@ -80,9 +39,16 @@ This API provides endpoints for user registration, login, fetching user data, an
   - status code : 200
     ```json
     {
-    "statusCode": 200,
-    "message": "Registrasi Berhasil"
+    "error": false,
+    "message": "Registrasi berhasil dilakukan",
+    "response": {
+        "id": "user-gc87tXal",
+        "namaLengkap": "Reza",
+        "email": "rezaaja@gmail.com",
+        "nomorTelepon": "08928229"
     }
+    }
+
   - status code : 400
     ```json
       {
@@ -98,28 +64,26 @@ This API provides endpoints for user registration, login, fetching user data, an
       "message": "Password dan Conf Password tidak sesuai"
       }
 
-  #### User LOGIN
+  #### User Login
 
-- **Endpoint:** `POST /login`
+- **Endpoint:** `/login`
 - **Method**: POST
 - **Description:** Login for User.
   - **Request Body:**
-  ```json
-  {
+    ```json
+    {
     "email": "john@example.com",
     "password": "securepassword",
-  }
+    }
 - **Response**
   - status code : 200
     ```json
     {
-    "statusCode": 200,
-    "message": "success",
-    "data": {
-    "name": "Pengguna 1",
-    "email": "pengguna1@gmail.com",
-    "accessToken":     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLU9pbmlRTzl0c1MiLCJuYW1lIjoiUGVuZ2d1bmEgMSIsImVtYWlsSWQiOiJwZW5nZ3VuYTFAZ21haWwuY29tIiwiaWF0IjoxNjg0NTU2ODgzLCJleHAiOjE2ODQ1OTI4ODN9.iRL0Y6PL88e_RoCSTJ2IrpOkJ_AHIw4X3VmQEcAJzJ"
-      }
+    "error": false,
+    "message": "Login berhasil",
+    "response": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWdjODd0WGFsIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6InJlemFhamFAZ21haWwuY29tIiwiaWF0IjoxNzAzMDkzMzA1LCJleHAiOjE3MDMxMzY1MDV9.El_MHj0gwHV_9h-kfuMtsQizz_TOCZ94F2uUn2HLPec"
+    }
     }
   - status code : 400
     ```json
@@ -128,78 +92,96 @@ This API provides endpoints for user registration, login, fetching user data, an
     "message": "Password Wrong!"
     }
   - statuss code : 404
-  ```json
-  {
-  "statusCode": 404,
-    "message": "Email tidak ditemukan!"
-  }
-
+      ```json
+      {
+      "statusCode": 404,
+        "message": "Email tidak ditemukan!"
+      }
     
-### Laundry API
+## Laundry API
 
 #### Get Laundry Services
 
-- **Endpoint:** `GET /laundrys`
-- **Method**: GET
-- **Description:** Get a list of laundry services.
-- **Headers:**
-    - `Authorization` : `Bearer < token >`
-- **Authentication:** Requires a valid access token.
+- **Endpoint:** `/laundrys`
+- **Method**: `GET`
+- **Description:** Get a list of laundry and services.
 - **Response :**
   ```json
   {
-    [
-      {
-          "id": 1,
-          "name": "Reza Laundry",
-          "email": "laundry@gmail.com",
-          "alamat": "Sewon"
-      },
-      {
-          "id": 3,
-          "name": "Bersih Laundry",
-          "email": "laundryRa@gmail.com",
-          "alamat": "Jl. Merdeka"
-      },
-    ]
+    "id": 742,
+            "namaLaundry": "Laundry Aja",
+            "alamat": "Jl. Merdeka",
+            "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
+            "nomorTelepon": "089283847",
+            "status": "Open",
+            "layanan": [
+                {
+                    "id": "layanan-2joJ",
+                    "namaLayanan": "Komplit Kilat",
+                    "harga": "8000"
+                },
+                {
+                    "id": "layanan-5NQdflKA",
+                    "namaLayanan": "Setrika",
+                    "harga": "6000"
+                },
+                ....
+                ....
+                ...
+      "id": 743,
+              "namaLaundry": "Laundry Aja",
+              "alamat": "Jl. Merdeka",
+              "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
+              "nomorTelepon": "089283847",
+              "status": "Open",
+              "layanan": []
+            ]
     }
 
-#### Get LAUNDRY By ID
+#### Get Laundry Detail
 
-- **Endpoint:** `GET /laundry/:id`
-- **Method**: GET
-- **Description:** Get a list of laudnry with limited information.
-- **Authentication:** Requires a valid access token.
-- **Headers:**
-    - `Authorization` : `Bearer < token >`
+- **Endpoint:** `/laundrys/detail/:id`
+- **Method**: `GET`
 - **Response**
   - Status : 200
     ```json
-      {
-        "success": true,
-        "statusCode": res.statusCode,
-        "message": "Pengguna diambil dengan sukses",
-        "user" : {
-          "id": "user-agdKaSq2",
-          "name": "Hafis",
-          "alamat": "Jalan Manukwari",
-          "telephone" : "0892829",
-          "status" : "Open"
-        }
+    "error": false,
+    "message": "Detail Laundry berhasil ditampilkan",
+    "resultData": {
+        "id": 742,
+        "namaLaundry": "Laundry Aja",
+        "alamat": "Jl. Merdeka",
+        "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
+        "nomorTelepon": "089283847",
+        "status": "Open",
+        "layanan": [
+            {
+                "id": "layanan-2joJ",
+                "namaLayanan": "Komplit Kilat",
+                "harga": "8000",
+                "status": "Tersedia"
+            },
+            {
+                "id": "layanan-5NQdflKA",
+                "namaLayanan": "Setrika",
+                "harga": "6000",
+                "status": "Tidak Tersedia"
+            },
+        ]
       }
   - Status : 404
     ```json
       {
-        "success": false,
-        "statusCode": res.statusCode,
-        "message": "Pengguna tidak ditemukan"
+        "error": true,
+        "statusCode": 404,
+        "message": "Laundry Not Found"
       }
   
 
 #### Laundry Registration
 
-- **Endpoint:** `POST /laundry/register`
-- **Method**: POST
+- **Endpoint:** `/laundry/register`
+- **Method**: `POST`
 - **Description:** Register a new laundry service.
 - **Request Body:**
   ```json
@@ -210,14 +192,28 @@ This API provides endpoints for user registration, login, fetching user data, an
     "confPassword": "securepassword",
     "telephone": "987654321",
     "latitude": "12.3456",
-    "longitude": "78.9101"
+    "longitude": "78.9101",
+    "alamat" : "Sewon",
+    "photo" : " "
   }
 - **Response**
   - status code : 200
     ```json
     {
-    "statusCode": 200,
-    "message": "Registrasi Berhasil"
+    "error": false,
+    "message": "Registrasi berhasil dilakukan",
+    "response": {
+        "id": 754,
+        "email": "testreza1@gmail.com",
+        "namaLaundry": "Laundry",
+        "nomorTelepon": "08123452",
+        "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/1703088946061-logoWisata.jpg",
+        "alamat": "Sewon",
+        "latitude": "0.903948",
+        "longitude": "-0.568494",
+        "passwordToken": null,
+        "status": "Open"
+      }
     }
   - status code : 400
     ```json
@@ -234,44 +230,39 @@ This API provides endpoints for user registration, login, fetching user data, an
       "message": "Password dan Conf Password tidak sesuai"
       }
 
-
-
 #### Laundry LOGIN
 
-- **Endpoint:** `POST /laundry/login`
-- **Method**: POST
+- **Endpoint:** `/laundry/login`
+- **Method**: `POST`
 - **Description:** Login for Laundry.
   - **Request Body:**
-  ```json
-  {
-    "email": "laundryandri@example.com",
-    "password": "securepassword",
-  }
+    ```json
+    {
+      "email": "laundryandri@example.com",
+      "password": "securepassword",
+    }
 - **Response**
   - status code : 200
     ```json
     {
-    "statusCode": 200,
-    "message": "success",
-    "data": {
-    "name": "laundry Andri",
-    "email": "laundryandri@gmail.com",
-    "accessToken":     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLU9pbmlRTzl0c1MiLCJuYW1lIjoiUGVuZ2d1bmEgMSIsImVtYWlsSWQiOiJwZW5nZ3VuYTFAZ21haWwuY29tIiwiaWF0IjoxNjg0NTU2ODgzLCJleHAiOjE2ODQ1OTI4ODN9.iRL0Y6PL88e_RoCSTJ2IrpOkJ_AHIw4X3VmQEcAJzJ"
+    "error": false,
+    "message": "Login berhasil",
+    "response": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXVuZHJ5SUQiOjc0NiwibmFtZSI6IkxhdW5kcnkgUmV6YSIsImVtYWlsIjoiUmV6YUBnbWFpbC5jb20iLCJpYXQiOjE3MDMwNTE3OTcsImV4cCI6MTcwMzA5NDk5N30.RIWtJjx6R5QPlLz2YyMaieuexv_XipVM4OSKvb-HI8c"
       }
     }
-  - status code : 400
+  - status code : 401
     ```json
     {
-    "statusCode": 400,
-    "message": "Password Wrong!"
+      "error": true,
+      "message": "Password tidak sesuai"
     }
-  - statuss code : 404
-  ```json
-  {
-  "statusCode": 404,
-    "message": "Email tidak ditemukan!"
-  }
-
+  - statuss code : 403
+    ```json
+      {
+        "error": true,
+        "message": "Email tidak terdaftar"
+      }
 
 
 #### Laundry EDIT STATUS
