@@ -60,7 +60,7 @@ export const getLaundryDetail = async (req, res) => {
       include: [
         {
           model: Layanan,
-          attributes: ['id', 'name', 'harga'],
+          attributes: ['id', 'name', 'harga', 'status'],
         },
       ],
     });
@@ -86,6 +86,7 @@ export const getLaundryDetail = async (req, res) => {
         id: service.id,
         namaLayanan: service.name,
         harga: service.harga,
+        status: service.status
       })),
     };
 
@@ -324,12 +325,9 @@ export const getLaundryDetail = async (req, res) => {
     }
   };
 
-
   export const showFullProfile = async (req, res) => {
     try {
-      // Assuming that the admin ID is stored in the session (replace with your actual middleware logic)
       const laundryID = req.laundry.laundryID;
-  
       const data = await Laundrys.findByPk(laundryID, {
         include: {
           model: Layanan,
