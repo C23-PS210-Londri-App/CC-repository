@@ -2,8 +2,8 @@ import express from "express"
 import { Login, Register, editUser, showProfile} from "../controllers/Users.js"
 import { verifyToken }  from "../middleware/verifyToken.js"
 import { refreshToken } from "../controllers/RefreshToken.js" 
-import { editLaundry, getAllLaundrys, getLaundryDetail, laundryStatus, loginLaundry, registerLaundry,  getAdminProfileWithLayanan} from "../controllers/Laundry.js"
-import { createService, deleteService, editService, getAllServices, getServiceDetails } from "../controllers/service.js"
+import { editLaundry, getAllLaundrys, getLaundryDetail, laundryStatus, loginLaundry, registerLaundry,  showFullProfile} from "../controllers/Laundry.js"
+import { createService, deleteService, editService, getAllServices, getServiceDetails, editServiceStatus } from "../controllers/service.js"
 import { allOrderProcessforUser, allOrderSuccessforUser, allOrderforUser, createOrder } from "../controllers/order.js"
 import { upload, uploadImageToGCS } from "../helper/uploadImg.js"
 import { acceptOrder, allOrderforlaundry, detailOrder } from "../controllers/orderOwner.js"
@@ -56,7 +56,6 @@ router.put('/laundry/status', verifyToken ,laundryStatus)
 router.get('/laundry/profile/full',verifyToken, showFullProfile)
 router.post('/laundry/profile/edit',upload.single('photo'),uploadImageToGCS,editLaundry)
 router.put('/laundry/profile/edit',upload.single('photo'),uploadImageToGCS,editLaundry)
-router.get('/laundry/profile/full', verifyToken, getAdminProfileWithLayanan);
 
 // API UNTUK LAUNDRY LAYANAN
 router.get('/laundry/service/all',verifyToken, getAllServices)
