@@ -168,7 +168,6 @@ export const editUser = async (req, res) => {
       statusCode: res.statusCode,
       error: {
         message: error.message,
-        uri: req.originalUrl,
       },
     });
   }

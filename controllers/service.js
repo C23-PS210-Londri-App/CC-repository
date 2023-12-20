@@ -3,7 +3,7 @@ import Layanan from "../models/layananModel.js";
 
 export const createService = async (req, res) => {
   const laundryId = req.laundry.laundryID;
-  const { namaLayanan, harga } = req.body;
+  const { namaLayanan, harga , status} = req.body;
 
   try {
     // Validate input
@@ -30,6 +30,7 @@ export const createService = async (req, res) => {
       name: namaLayanan,
       id_laundry: laundryId,
       harga: harga,
+      status: status,
     });
 
     const responseData = {
@@ -40,6 +41,7 @@ export const createService = async (req, res) => {
           namaLayanan: dataLayanan.name,
           email: dataLayanan.email,
           harga: dataLayanan.harga,
+          status: dataLayanan.status,
           laundryID : dataLayanan.id_laundry,
           createdAt: dataLayanan.createdAt,
           updatedAt: dataLayanan.updatedAt,
@@ -245,6 +247,54 @@ export const deleteService = async (req, res) => {
     res.json(responseData);
   } catch (error) {
     console.error("Error deleting service:", error);
+    res.status(500).json({
+      error: true,
+      statusCode: 500,
+      error: {
+        message: "Internal Server Error",
+      },
+    });
+  }
+};
+
+
+
+export const editServiceStatus = async (req, res) => {
+  const laundryId = req.laundry.laundryID;
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const layanan = await Layanan.findByPk(id);
+
+    if (!layanan) {
+      return res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Layanan not found",
+      });
+    }
+
+    await layanan.update({
+      status,
+    });
+
+    const updatedLayanan = await Layanan.findByPk(id);
+
+    const responseData = {
+      success: true,
+      statusCode: 200,
+      message: "Status layanan berhasil diupdate",
+      updatedLayanan: {
+        id: updatedLayanan.id,
+        status: updatedLayanan.status,
+        laundryID: laundryId,
+      },
+    };
+
+    res.json(responseData);
+  } catch (error) {
+    console.error("Error updating service status:", error);
     res.status(500).json({
       error: true,
       statusCode: 500,
