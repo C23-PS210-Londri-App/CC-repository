@@ -40,16 +40,39 @@ Backend API for LONDRI Owner and User App
   - status code : 200
     ```json
     {
-    "error": false,
-    "message": "Registrasi berhasil dilakukan",
-    "response": {
-        "id": "user-gc87tXal",
-        "namaLengkap": "Reza",
-        "email": "rezaaja@gmail.com",
-        "nomorTelepon": "08928229"
+          "error": false,
+          "message": "Registrasi berhasil dilakukan",
+          "response": {
+           "id": 1,
+           "namaLengkap": "John Doe",
+           "email": "john.doe@example.com",
+           "nomorTelepon": "1234567890",
+           "createdAt": "2023-12-21T12:34:56.789Z",
+           "updatedAt": "2023-12-21T12:34:56.789Z"
+       }
     }
-    }
-
+    ```
+      - Validation Error (Invalid Email Format):
+       ```json
+       {
+         "error": true,
+         "message": "Format email tidak valid"
+       }
+       ```
+     - Validation Error (Password Mismatch):
+       ```json
+       {
+         "error": true,
+         "message": "Password dan Confirm Password tidak cocok"
+       }
+       ```
+     - Server Error:
+       ```json
+       {
+         "error": true,
+         "message": "Internal Server Error"
+       }
+       ```
   - status code : 400
     ```json
       {
@@ -77,7 +100,7 @@ Backend API for LONDRI Owner and User App
       "password": "securepassword",
     }
 - **Response**
-  - status code : 200
+  - Successful Authentication:
     ```json
     {
     "error": false,
@@ -86,19 +109,107 @@ Backend API for LONDRI Owner and User App
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWdjODd0WGFsIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6InJlemFhamFAZ21haWwuY29tIiwiaWF0IjoxNzAzMDkzMzA1LCJleHAiOjE3MDMxMzY1MDV9.El_MHj0gwHV_9h-kfuMtsQizz_TOCZ94F2uUn2HLPec"
     }
     }
-  - status code : 400
-    ```json
-    {
-    "statusCode": 400,
-    "message": "Password Wrong!"
-    }
-  - statuss code : 404
-      ```json
-      {
-      "statusCode": 404,
-        "message": "Email tidak ditemukan!"
-      }
-    
+- Invalid Email:
+  ```json
+  {
+  "error": true,
+  "message": "Email tidak terdaftar"
+  }
+  ```
+- Incorrect Password:
+  ```json
+  {
+  "error": true,
+  "message": "Password salah"
+  }
+  ```
+### User EditProfile
+- Description: Allows users to edit their profile information.
+- Request Method: PUT
+- Request Headers: Requires a valid JWT token in the Authorization header.
+- Request Body:
+  - `name`: Updated user name.
+  - `email`: Updated email address.
+  - `telephone`: Updated telephone number.
+  - `latitude`: Updated latitude information.
+  - `longitude`: Updated longitude information.
+  - `alamat`: Updated address information.
+  - `photo`: Image file for profile picture (uploaded as a file).
+- Response:
+  - Successful Edit:
+       ```json
+       {
+         "success": true,
+         "message": "Edit Profile Succes",
+         "response": {
+           "id": 1,
+           "name": "Updated Name",
+           "email": "updated.email@example.com",
+           "telephone": "1234567890",
+           "latitude": 40.7128,
+           "longitude": -74.006,
+           "alamat": "Updated Address",
+           "photo": "https://updated-profile-photo-url.com",
+           "createdAt": "2023-12-21T12:34:56.789Z",
+           "updatedAt": "2023-12-21T12:45:00.000Z"
+         }
+       }
+       ```
+  - User Not Found:
+       ```json
+       {
+         "success": false,
+         "statusCode": 404,
+         "message": "User not found"
+       }
+       ```
+  - Server Error:
+       ```json
+       {
+         "success": false,
+         "statusCode": 500,
+         "error": {
+           "message": "Internal Server Error"
+         }
+       }
+       ```
+### User Profile
+   - Description: Retrieves the authenticated user's profile information.
+   - Request Method: GET
+   - Request Headers: Requires a valid JWT token in the Authorization header.
+   - Response:
+     - Successful Retrieval:
+       ```json
+       {
+         "success": true,
+         "message": "Load Profile Berhasil",
+         "response": {
+           "id": 1,
+           "name": "John Doe",
+           "email": "john.doe@example.com",
+           "telephone": "1234567890",
+           "photo": "https://profile-photo-url.com",
+           "alamat": "123 Main Street",
+           "latitude": 40.7128,
+           "longitude": -74.006
+         }
+       }
+       ```
+     - Unauthorized (Invalid Token):
+       ```json
+       {
+         "error": true,
+         "message": "Unauthorized. Invalid token."
+       }
+       ```
+     - Server Error:
+       ```json
+       {
+         "error": true,
+         "message": "Internal Server Error"
+       }
+       ```
+
 ## Laundry API
 
 ### Get Laundry Services
