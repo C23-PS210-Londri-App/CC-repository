@@ -37,7 +37,7 @@ Backend API for LONDRI Owner and User App
     "telephone": "123456789"
   }
 - **Response**
-  - status code : 200
+   - status code : 200
     ```json
     {
           "error": false,
@@ -52,41 +52,27 @@ Backend API for LONDRI Owner and User App
        }
     }
     ```
-      - Validation Error (Invalid Email Format):
+   - Validation Error (Invalid Email Format):
        ```json
        {
          "error": true,
          "message": "Format email tidak valid"
        }
        ```
-     - Validation Error (Password Mismatch):
+   - Validation Error (Password Mismatch):
        ```json
        {
          "error": true,
          "message": "Password dan Confirm Password tidak cocok"
        }
        ```
-     - Server Error:
+   - Server Error:
        ```json
        {
          "error": true,
          "message": "Internal Server Error"
        }
        ```
-  - status code : 400
-    ```json
-      {
-      "statusCode": 400,
-      "message": "Harap Isi Semua Field"
-      },
-      {
-      "statusCode": 400,
-      "message": "Format Email Tidak Sesuai"
-      },
-      {
-      "statusCode": 400,
-      "message": "Password dan Conf Password tidak sesuai"
-      }
 
   ### User Login
 
