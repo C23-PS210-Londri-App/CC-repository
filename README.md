@@ -1,7 +1,8 @@
 # LONDRI API
 
 Backend API for LONDRI Owner and User App
-
+## URL Deploy
+https://londri.et.r.appspot.com/
 ## How to Use
 1. Install using NPM
    `npm install`
@@ -52,26 +53,26 @@ Backend API for LONDRI Owner and User App
        }
     }
     ```
-   - Validation Error (Invalid Email Format):
-     ```json
-     {
-         "error": true,
-         "message": "Format email tidak valid"
-     }
+  - Validation Error (Invalid Email Format):
+  ```json
+  {
+      "error": true,
+      "message": "Format email tidak valid"
+  }
      ```
-   - Validation Error (Password Mismatch):
-     ```json
-     {
-         "error": true,
-         "message": "Password dan Confirm Password tidak cocok"
-     }
+  - Validation Error (Password Mismatch):
+  ```json
+    {
+      "error": true,
+      "message": "Password dan Confirm Password tidak cocok"
+    }
      ```
    - Server Error:
-     ```json
-     {
-         "error": true,
-         "message": "Internal Server Error"
-     }
+    ```json
+    {
+        "error": true,
+        "message": "Internal Server Error"
+    }
      ```
 
   ### User Login
@@ -95,20 +96,20 @@ Backend API for LONDRI Owner and User App
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWdjODd0WGFsIiwibmFtZSI6IlJlemEiLCJlbWFpbCI6InJlemFhamFAZ21haWwuY29tIiwiaWF0IjoxNzAzMDkzMzA1LCJleHAiOjE3MDMxMzY1MDV9.El_MHj0gwHV_9h-kfuMtsQizz_TOCZ94F2uUn2HLPec"
     }
     }
-- Invalid Email:
-  ```json
-  {
-  "error": true,
-  "message": "Email tidak terdaftar"
-  }
-  ```
-- Incorrect Password:
-  ```json
-  {
-  "error": true,
-  "message": "Password salah"
-  }
-  ```
+  - Invalid Email:
+      ```json
+        {
+          "error": true,
+          "message": "Email tidak terdaftar"
+        }
+      ```
+  - Incorrect Password:
+    ```json
+    {
+      "error": true,
+      "message": "Password salah"
+    }
+    ```
 ### User EditProfile
 - Description: Allows users to edit their profile information.
 - Request Method: PUT
@@ -195,10 +196,135 @@ Backend API for LONDRI Owner and User App
          "message": "Internal Server Error"
        }
        ```
+### Create Order
+
+- **Endpoint:** `/order/:idLayanan`
+- **Method**: `POST`
+- **Description:** Create order for User.
+- **Headers:**
+    - `Authorization` : `Bearer < token >`  
+- **Request Body:**
+    ```json
+    {
+      "estimasi_berat": 5,
+      "layanan_id": "layanan-DTMBHIC8",
+      "catatan": "Baju Warna Putih di pisah ya mas"
+    }
+- **Response**
+  - status code : 200
+    ```json
+    {
+      "error": false,
+      "message": "Proses order berhasil dilakukan",
+      "resultOrder": {
+          "id": 9,
+          "orderTrx": "TRX-41486",
+          "catatan": "Order ID Laundri 742",
+          "status": "Menunggu Diterima",
+          "createdAt": "2023-12-22T04:13:00.389Z",
+          "updatedAt": "2023-12-22T04:13:00.389Z",
+          "userName": "Reza",
+          "namaLaundry": "Laundry Aja",
+          "namaLayanan": "Komplit"
+      }
+  }
+  - status code : 404
+    ```json
+    {
+      "error": true,
+      "message": "Laundry atau layanan tidak ditemukan"
+    }
+
+
+### Get History Order
+
+- **Endpoint:** `/user/order/riwayat`
+- **Method**: `GET`
+- **Description:** Get a list of order for user.
+- **Headers:**
+    - `Authorization` : `Bearer < token >`
+- **Response :**
+  ```json
+  {
+    "error": false,
+    "message": "Proses order berhasil dilakukan",
+    "resultOrders": [
+        {
+          "id": 9,
+          "orderTrx": "TRX-41486",
+          "catatan": "Order ID Laundri 742",
+          "status": "Menunggu Diterima",
+          "createdAt": "2023-12-22T04:13:00.000Z",
+          "updatedAt": "2023-12-22T04:13:00.000Z",
+          "customerId": "user-gc87tXal",
+          "userName": "Reza",
+          "namaLaundry": "Laundry Aja",
+          "namaLayanan": "Komplit"
+        }
+    ]
+  }
+
+### Get Order Status Process
+
+- **Endpoint:** `/user/order/process`
+- **Method**: `GET`
+- **Description:** Get a list of order that status is not finish
+- **Headers:**
+    - `Authorization` : `Bearer < token >`
+- **Response :**
+    ```json
+    {
+      "error": false,
+      "message": "Proses order yang belum selesai",
+      "resultOrders": [
+          {
+              "id": 9,
+              "orderTrx": "TRX-41486",
+              "catatan": "Order ID Laundri 742",
+              "status": "Menunggu Diterima",
+              "createdAt": "2023-12-22T04:13:00.000Z",
+              "updatedAt": "2023-12-22T04:13:00.000Z",
+              "customerId": "user-gc87tXal",
+              "userName": "Reza",
+              "namaLaundry": "Laundry Aja",
+              "namaLayanan": "Komplit"
+          }
+        ]
+    }
+
+### Get Order Status Process
+
+- **Endpoint:** `/user/order/success`
+- **Method**: `GET`
+- **Description:** Get a list of order that status is finish
+- **Headers:**
+    - `Authorization` : `Bearer < token >`
+- **Response :**
+    ```json
+    {
+      "error": false,
+      "message": "Proses order berhasil dilakukan",
+      "resultOrders": [
+          {
+              "id": 9,
+              "orderTrx": "TRX-41486",
+              "catatan": "Order ID Laundri 742",
+              "status": "Selesai",
+              "createdAt": "2023-12-22T04:13:00.000Z",
+              "updatedAt": "2023-12-22T04:23:53.000Z",
+              "customerId": "user-gc87tXal",
+              "userName": "Reza",
+              "namaLaundry": "Laundry Aja",
+              "namaLayanan": "Komplit"
+          }
+      ]
+    }
+
 
 ## Laundry API
 
-### Get Laundry Services
+
+### Get Laundry and Laundry Services
 
 - **Endpoint:** `/laundrys`
 - **Method**: `GET`
@@ -206,34 +332,32 @@ Backend API for LONDRI Owner and User App
 - **Response :**
   ```json
   {
-    "id": 742,
-            "namaLaundry": "Laundry Aja",
-            "alamat": "Jl. Merdeka",
-            "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
-            "nomorTelepon": "089283847",
-            "status": "Open",
-            "layanan": [
-                {
-                    "id": "layanan-2joJ",
-                    "namaLayanan": "Komplit Kilat",
-                    "harga": "8000"
-                },
-                {
-                    "id": "layanan-5NQdflKA",
-                    "namaLayanan": "Setrika",
-                    "harga": "6000"
-                },
-                ....
-                ....
-                ...
-      "id": 743,
-              "namaLaundry": "Laundry Aja",
-              "alamat": "Jl. Merdeka",
-              "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
-              "nomorTelepon": "089283847",
-              "status": "Open",
-              "layanan": []
-            ]
+        "id": 742,
+        "namaLaundry": "Laundry Aja",
+        "alamat": "Jl. Merdeka",
+        "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
+        "nomorTelepon": "089283847",
+        "status": "Open",
+        "layanan": [
+            {
+                "id": "layanan-2joJ",
+                "namaLayanan": "Komplit Kilat",
+                "harga": "8000"
+            },
+            {
+                "id": "layanan-5NQdflKA",
+                "namaLayanan": "Setrika",
+                "harga": "6000"
+            },
+    
+          "id": 743,
+          "namaLaundry": "Laundry Aja",
+          "alamat": "Jl. Merdeka",
+          "fotoLaundry": "https://storage.googleapis.com/londri-foto-bucket/placeholder_laundry.png",
+          "nomorTelepon": "089283847",
+          "status": "Open",
+          "layanan": []
+          ]
     }
 
 ### Get Laundry Detail
@@ -275,8 +399,7 @@ Backend API for LONDRI Owner and User App
         "message": "Laundry Not Found"
       }
   
-
-#### Laundry Registration
+### Laundry Registration
 
 - **Endpoint:** `/laundry/register`
 - **Method**: `POST`
@@ -328,7 +451,7 @@ Backend API for LONDRI Owner and User App
       "message": "Password dan Conf Password tidak sesuai"
       }
 
-#### Laundry LOGIN
+### Laundry LOGIN
 
 - **Endpoint:** `/laundry/login`
 - **Method**: `POST`
@@ -363,7 +486,7 @@ Backend API for LONDRI Owner and User App
       }
 
 
-#### Laundry EDIT STATUS
+### Laundry EDIT STATUS
 
 - **Endpoint:** `/laundry/status/:id`
 - **Method**: `PUT`
@@ -569,11 +692,11 @@ Backend API for LONDRI Owner and User App
 - **Headers:**
     - `Authorization` : `Bearer < token >`  
 - **Request Body:**
-    ```json
-    {
-      "namaLayanan": "Komplit",
-      "hargaLayanan": "7000",
-    }
+     ```json
+      {
+        "namaLayanan": "Komplit",
+        "hargaLayanan": "7000",
+      }
 - **Response**
   - status code : 200
     ```json
