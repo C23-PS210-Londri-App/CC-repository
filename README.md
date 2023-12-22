@@ -9,6 +9,9 @@ https://londri.et.r.appspot.com/
 2. Download file .env
 3. How to Run
    `npm start`
+
+## Postman
+<a href="https://drive.google.com/drive/folders/1lxjVwGpZAVsoowfFRLsJIEIgp4YBn7Qz?usp=sharing">Postman Testing</a>
   
 ## Endpoints Routes
 
@@ -503,8 +506,12 @@ https://londri.et.r.appspot.com/
     ```json
     {
         "success": true,
-        "statusCode": res.statusCode,
-        "message": "Success",
+        "message": "Status Laundry Berhasil Dirubah",
+        "resultStatus": {
+            "ID_laundry": 746,
+            "nama_laundry": "Laundry Reza",
+            "status": "Open"
+        }
     }
     
   - status code : 500
@@ -517,7 +524,6 @@ https://londri.et.r.appspot.com/
     ```json
     {
       "success": false,
-      "statusCode": res.statusCode,
       "message": "Luandry not found",
     }
 
